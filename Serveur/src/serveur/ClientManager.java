@@ -7,6 +7,8 @@ package serveur;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,19 +47,16 @@ public class ClientManager extends Thread {
          * En cas de tranmission d'une donnee du client
          * Elle appelle la fonction de transfert vers le serveur
          */
-        int size = -1;
-        byte[] data = null;
+        int size ;
+        Byte[] data = null;
         while(true){
             try {
                 size = this.in.read();
-                if(size != -1){
+                if(size >= 0){
                     System.out.println(size);
-                    System.out.println("Donnees recues");
-                    data = this.in.readAllBytes();
-                    this.transfertData(data);
                 }
             } catch (IOException ex) {
-                ex.getMessage();
+                Logger.getLogger(ClientManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

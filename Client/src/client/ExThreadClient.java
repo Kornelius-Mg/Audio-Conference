@@ -47,9 +47,11 @@ public class ExThreadClient extends Thread {
             byte[] data;
             in = new BufferedInputStream(new FileInputStream(fichier));
             data = in.readAllBytes();
+            System.out.println(data.length);
             this.out.write(TAILLE);
-            this.out.write(data);
+            //this.out.write(data);
             System.out.println("Donnees envoyees sur le serveur");
+            this.out.flush();
         } catch (FileNotFoundException ex) {
             System.err.println(ex.getMessage());
         } catch (IOException ex) {

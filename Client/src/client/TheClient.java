@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.nio.file.*;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -25,6 +26,7 @@ public class TheClient {
             this.rx = new RxThreadClient(client);
             this.rx.start();
             this.ex.start();
+            this.createTmpFile();
             System.out.println("Client connecte au serveur");
         } catch (IOException ex) {
             Logger.getLogger(TheClient.class.getName()).log(Level.SEVERE, null, ex);
@@ -38,6 +40,19 @@ public class TheClient {
             this.client.close();
         } catch (IOException ex){
             Logger.getLogger(TheClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void createTmpFile(){
+        try {
+            String path = System.getenv("tmp")+"\\msg_client";
+            Path chemin = FileSystems.getDefault().getPath(path);
+            Files.createDirectory(chemin); //Creation du dossier
+            path = System.getenv("tmp")+"\\msg_client\\son.wav";
+            chemin = FileSystems.getDefault().getPath(path);
+            Files.createFile(chemin); //creation du fichier
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
         }
     }
 }

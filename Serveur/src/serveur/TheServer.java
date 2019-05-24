@@ -88,6 +88,7 @@ public class TheServer {
                     out.write(data.length);
                     out.write(data);
                     System.out.println("Donnees envoye a un client");
+                    out.flush();
                 }
             } catch (IOException ex) {
                 Logger.getLogger(TheServer.class.getName()).log(Level.SEVERE, null, ex);

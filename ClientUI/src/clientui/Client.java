@@ -7,7 +7,7 @@ package clientui;
 
 /**
  *
- * @author Nego MPYANA
+ * @author Kornelius-Mg
  */
 public class Client extends javax.swing.JFrame {
 
