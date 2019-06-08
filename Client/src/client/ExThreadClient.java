@@ -36,32 +36,40 @@ public class ExThreadClient extends Thread {
         while(true){}
     }
     
-    @SuppressWarnings("null")
-    public void sendData(){
+    public void record(){
         this.enregistreur.start();
+    }
+    
+    @SuppressWarnings("null")
+    private void sendData(){
         BufferedInputStream in = null;
         File fichier = null;
         try {
             fichier = new File(PATH);
-            final int TAILLE = (int)fichier.length();
-            byte[] data;
             in = new BufferedInputStream(new FileInputStream(fichier));
-            data = in.readAllBytes();
-            System.out.println(data.length);
-            this.out.write(TAILLE);
-            //this.out.write(data);
-            System.out.println("Donnees envoyees sur le serveur");
+            PrintStream p = new PrintStream(this.out,true);
+            byte[] data = in.readAllBytes();
+            byte[] donnee = {1,8,0,4,9};
+            p.write(donnee);
+            /*for(byte b : donnee)
+                this.out.write(b);
+            System.out.println((data.length/1024)+" kilo-octets envoyes");
             this.out.flush();
+            System.out.println("Envoi des donnees reussi");*/
+            in.close();
+            //this.out.close();
         } catch (FileNotFoundException ex) {
             System.err.println(ex.getMessage());
         } catch (IOException ex) {
             System.err.println(ex.getMessage());
         } 
+        catch(Exception ex){ System.err.println(ex.getMessage());}
     }
     
     public void stopSending(){
         this.enregistreur.interrupt();
         System.out.println(this.enregistreur.isAlive());
+        this.sendData();
     }
     
     @Override

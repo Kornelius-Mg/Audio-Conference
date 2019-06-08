@@ -114,7 +114,7 @@ public class Commande extends javax.swing.JPanel {
 
     private void jButton3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MousePressed
         // TODO add your handling code here:
-        this.client.ex.sendData();
+        this.client.ex.record();
     }//GEN-LAST:event_jButton3MousePressed
 
     private void jButton3MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseReleased

@@ -14,7 +14,7 @@ public class Client extends javax.swing.JFrame {
     /**
      * Creates new form Client
      */
-    public Client() {
+    public Client(){
         initComponents();
     }
 

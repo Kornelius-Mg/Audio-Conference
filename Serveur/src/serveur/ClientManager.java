@@ -7,10 +7,6 @@ package serveur;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -28,41 +24,67 @@ public class ClientManager extends Thread {
      */
     private Socket connexion;
     private TheServer serveur;
-    private BufferedInputStream in;
+    private InputStream in;
+    private OutputStream out;
     public ClientManager(Socket connexion,TheServer serveur){
-        this.connexion = connexion;
-        this.serveur = serveur;
         try {
-            this.in = new BufferedInputStream(this.connexion.getInputStream());
+            this.connexion = connexion;
+            this.in = new BufferedInputStream(connexion.getInputStream());
+            this.serveur = serveur;
+        } catch (FileNotFoundException ex) {
+            System.err.println(ex.getMessage());
         } catch (IOException ex) {
-            Logger.getLogger(ClientManager.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
     }
     
     @Override
     public void run(){
-        /**
-         * Loraquu'on demarre le getionnaire de client
-         * Une boucle infinie se cree, cherchant les informations sur l'entree
-         * En cas de tranmission d'une donnee du client
-         * Elle appelle la fonction de transfert vers le serveur
-         */
-        int size ;
-        Byte[] data = null;
+        //BufferedReader lecteur = new BufferedReader(new InputStreamReader(this.in));
+        //String msg;
+        int bit;
+        int valide;
+        byte[] data = new byte[1024];
         while(true){
             try {
-                size = this.in.read();
-                if(size >= 0){
-                    System.out.println(size);
+                bit = this.in.read();
+                if(bit>=0){
+                    //System.out.println(this.in.available());
+                    //byte nb;
+                    File fichier = new File("Rx.wav");
+                    if(!fichier.exists()) fichier.createNewFile();
+                    this.out = new BufferedOutputStream(new FileOutputStream(fichier));
+                    do{
+                        valide = this.in.available();
+                        System.out.println(bit);
+                        //this.out.write(bit);
+                        this.in.read(data,0,valide);
+                        //System.out.println("Lecture...");
+                    }while(bit>=0);
+                    //System.out.println(bit);
+                    System.out.println("Donnees arrivees");
+                    this.out.close();
                 }
+                /**
+                 * Loraqu'on demarre le getionnaire de client
+                 * Une boucle infinie se cree, cherchant les informations sur l'entree
+                 * En cas de tranmission d'une donnee du client
+                 * Elle appelle la fonction de transfert vers le serveur
+                 */
+//                if(lecteur.ready()){
+//                    msg = lecteur.readLine();
+//                    System.out.println("Client >> "+msg);
+//                }
             } catch (IOException ex) {
-                Logger.getLogger(ClientManager.class.getName()).log(Level.SEVERE, null, ex);
+                
             }
+
         }
+        
     }
-    public void transfertData(byte[] data){
+    public void transfertData(){
         //la fonction de transfert des donnees
-        this.serveur.sendAll(data,this.connexion);
-    }
-    
+        this.serveur.sendAll(this.connexion);
+    } 
 }
+ 

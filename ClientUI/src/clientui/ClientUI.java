@@ -5,6 +5,10 @@
  */
 package clientui;
 
+import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Nego MPYANA
@@ -16,5 +20,15 @@ public class ClientUI {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        String mot = "Je ne suis pas un homme libre";
+        StringReader sr = new StringReader(mot);
+        int lettre;
+        try {
+            while((lettre = sr.read())>=0){
+                System.out.print((char)lettre);
+            }
+        }catch (IOException ex){
+            Logger.getLogger(ClientUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

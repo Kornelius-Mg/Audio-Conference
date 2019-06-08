@@ -58,27 +58,17 @@ public class TheServer {
         }
     }
     
-    public void sendAll(byte[] data,Socket c){
-        /**
-             * methode de diffusion des donnees data a tous les clients connectes
-             * sauf a son expeditaire
-             * Puis on ferme toutes les socquettes de connexion
-             *
-             */
-        /**FileInputStream in = null;
-        File fichier = null;
+    public void sendAll(Socket c){
+        FileInputStream in = null;
         byte[] data = null;
         try {
-            fichier = new File("C:\\Users\\Salama Service\\AppData\\Local\\Temp\\msg_client\\recu.wav");
-            final int TAILLE = (int)fichier.length();
-            in = new FileInputStream(fichier);
-            data = new byte[TAILLE];
-            in.read(data);
+            in = new FileInputStream(new File("Rx.wav"));
+            data = in.readAllBytes();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(TheServer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(TheServer.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        }
         System.out.println("Envoi des donnees aux clients");
         BufferedOutputStream out = null;
         for(Socket s : this.listeClients) {
